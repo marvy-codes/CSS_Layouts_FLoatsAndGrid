@@ -1,0 +1,202 @@
+:root {
+    box-sizing: border-box;
+}
+   
+*, ::before, ::after {
+    box-sizing: inherit;
+}
+body {
+    background-color: #eee;
+    font-family: Helvetica, Arial, sans-serif;
+}
+body * + * {
+    margin-top: 1.5em;
+}
+header {
+    padding: 1em 1.5em;
+    color: #fff;
+    background-color: #0e8edd;
+    border-radius: .5em;
+    margin-bottom: 1.5em;
+}
+.main {
+    padding: 0 1.5em;
+    background-color: #fff;
+    border-radius: .5em;
+}
+.container {
+    max-width: 1080px; /* prevents horizontal scroll on smaller devices*/
+    margin: 0 auto;
+}
+/* to center the content on the page, we can achieve this by placing the content inside two nested container, then set margins on the inner container 
+   to position it within the outer one "Brad Westfall calls this the 'double container pattern'"*/
+/* body element is also 100% of the page, so no new style is needed, the inner container recieves some styles*/
+
+/* DO WE STILL NEED TO KNOW HOW TO USE FLOATS: CHECK PAGE 94 [121]-THO FLOAT ARE THE ONLY WAY TO MOVE AN IMAGE TO THE SIDE OF THE PAGE AND ALLOW TEXT
+   TO WRAP AROUND IT */
+
+.media {
+    /* float: left; */
+    /* margin: 0 1.5em 1.5em 0; */  /* adds right and bottom margins to each media*/
+    /* width: calc(50% - 1.5em); */ /* subtracts the margin from the width*/ 
+    padding: 1.5em;
+    background-color: #eee;
+    border-radius: 0.5em;
+}
+
+/*Floated elements do not add height to thier parent element. <div style="clear: both"></div> QUICK FIX-1*/
+.clearfix::after, .clearfix::before{ /* this fixes and allows the non-floated elements margin to be contained and not collapse as normal*/
+    display: table; /* prevents margin from collapsing through the pseudo elememt*/
+    content: " ";
+    clear: both;
+} /* some developers abbreviate the class name to cf, which is also conveniently an abbreviation for "contain floats"*/
+
+.clearfix::after{
+    clear: both;
+} 
+
+.media-image{
+    float: left;
+    margin-right: 1.5em; /* addes a space between the image and the body*/
+}
+.media-body{
+    margin-top: 0;
+    overflow: auto; /* establishes a new block formatting context::: for more on BFC readd nicole's seminal post about it::: page 105 [133]*/
+}
+.media-body h4{
+    margin-top: 0;
+}
+/* Web developer NICOLE SULLIVAN called this the "MEDIA OBJECT" we would need to establish something called block formatting context for the media 
+   body [BFC]*/
+
+/* GRID-SYSTEM: also a popular way to facilitate code reuse */
+/* General principle of the grid syystem:: a row container around one or more coloumn containers*/
+
+/* Replicates the clearfix so the row contains its floated columns */
+.row::after { /* you dont need to add any clearfix any time you need to add another new row element*/
+    content: " ";
+    display: block;
+    clear: both;
+} 
+
+/* Below is the grid system*/
+[class*="column-"] { /* Targets all elements with a class attribute that includes "column-"*/
+    float: left;
+    padding: 0 0.75em;
+    margin-top: 0;
+}
+/* we now need to simplify the media object, it doesn't to float left anymore, as grid columns does that for you, doesn't need width, it naturally 
+   fill 100% of its container, we can also remove the margin and the nth-child selector that clears each row*/
+.column-1 { width: 8.3333%; }
+.column-2 { width: 16.6667%; }
+.column-3 { width: 25%; }
+.column-4 { width: 33.3333%; }
+.column-5 { width: 41.6667%; }
+.column-6 { width: 50%; }
+.column-7 { width: 58.3333%; }
+.column-8 { width: 66.6667%; }
+.column-9 { width: 75%; }
+.column-10 { width: 83.3333%; }
+.column-11 { width: 91.6667% }
+.column-12 { width: 100%; }
+
+/* Fixing the slight misalighnment between a grid column and the content outside the grid row*/
+.row {
+    margin-left: -0.75em;
+    margin-right: -0.75em;
+}
+
+/* WE NOW HAVE A FULLY WORKING GRID SYSTEM POWERED BY FLOATS */
+
+/*
+:root {
+    box-sizing: border-box;
+}
+*, ::before,::after {
+    box-sizing: inherit;
+}
+body {
+    background-color: #eee;
+    font-family: Helvetica, Arial, sans-serif;
+}
+body * + * {
+    margin-top: 1.5em;
+}
+.row {
+    margin-left: -0.75em;
+    margin-right: -0.75em;
+}
+.row::after {
+    content: " ";
+    display: block;
+    clear: both;
+}
+[class*="column-"] {
+    float: left;
+    padding: 0 0.75em;
+    margin-top: 0;
+}
+.column-1 { width: 8.3333%; }
+.column-2 { width: 16.6667%; }
+.column-3 { width: 25%; }
+.column-4 { width: 33.3333%; }
+.column-5 { width: 41.6667%; }
+.column-6 { width: 50%; }
+.column-7 { width: 58.3333%; }
+.column-8 { width: 66.6667%; }
+.column-9 { width: 75%; }
+.column-10 { width: 83.3333%; }
+.column-11 { width: 91.6667% }
+.column-12 { width: 100%; }
+
+header {
+    padding: 1em 1.5em;
+    color: #fff;
+    background-color: #0072b0;
+    border-radius: .5em;
+    margin-bottom: 1.5em;
+}
+.main {
+    padding: 0 1.5em 1.5em;
+    background-color: #fff;
+    border-radius: .5em;
+}
+.container {
+    max-width: 1080px;
+    margin: 0 auto;
+}
+.media {
+    padding: 1.5em;
+    background-color: #eee;
+    border-radius: 0.5em;
+}
+.media-image {
+    float: left;
+    margin-right: 1.5em;
+}
+.media-body {
+    overflow: auto;
+    margin-top: 0;
+} BFC
+.media-body h4 {
+    margin-top: 0;
+}
+.clearfix::before,
+.clearfix::after {
+    display: table;
+    content: " ";
+}
+.clearfix::after {
+    clear: both;
+}
+*/
+
+
+/*Summary
+ Floats exist to allow text to wrap around an element—but that’s not often the effect you want.
+ Use a clearfix to contain floated elements.
+ Understand the three tricks of a block formatting context: containing floats, preventing margin collapse, and preventing document flow from wrapping  
+  around a floated element.
+ Use the double container pattern to center page contents.
+ Use the media object pattern to position descriptive text alongside an image.
+ Use a grid system to create a wide array of page layouts.*/

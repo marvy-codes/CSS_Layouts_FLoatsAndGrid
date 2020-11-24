@@ -1,0 +1,82 @@
+/* MY TIP: FLOATS AND CLEAR WORK HAND IN HAND */
+:root {
+    box-sizing: border-box;
+}
+   
+*, ::before, ::after {
+    box-sizing: inherit;
+}
+body {
+    background-color: #eee;
+    font-family: Helvetica, Arial, sans-serif;
+}
+body * + * {
+    margin-top: 1.5em;
+}
+header {
+    padding: 1em 1.5em;
+    color: #fff;
+    background-color: #0eddb3;
+    border-radius: .5em;
+    margin-bottom: 1.5em;
+}
+.main {
+    padding: 0 1.5em;
+    background-color: #fff;
+    border-radius: .5em;
+}
+.container {
+    max-width: 1080px; /* prevents horizontal scroll on smaller devices*/
+    margin: 0 auto;
+} 
+/*  To center the content on the page, we can achieve this by placing the content inside two nested container, then set margins on the inner container
+    to position it within the outer one "Brad Westfall calls this the 'double container pattern'"*/
+/*  body element is also 100% of the page, so no new style is needed, the inner container recieves some styles*/
+
+/* DO WE STILL NEED TO KNOW HOW TO USE FLOATS: CHECK PAGE 94 [121]-THO FLOAT ARE THE ONLY WAY TO MOVE AN IMAGE TO THE SIDE OF THE PAGE AND ALLOW
+   TEXT TO WRAP AROUND IT */
+
+.media {
+    float: left;
+    margin: 0 1.5em 1.5em 0;  /* adds right and bottom margins to each media*/
+    width: calc(50% - 1.5em); /* subtracts the margin from the width*/ 
+    padding: 1.5em;
+    background-color: #eee;
+    border-radius: 0.5em;
+}
+
+/* Floated elements do not add HEIGHT to thier parent element. <div style="clear: both"></div> QUICK FIX-1*/
+/* Clearfix are added to the element containing the floats*/
+.clearfix::after, .clearfix::before{ /* this fixes and allows the non-floated elements margin to be contained and not collapse as normal*/
+    display: table; /* prevents margin from collapsing through the pseudo elememt*/
+    content: " ";
+    clear: both;
+} /* some developers abbreviate the class name to cf, which is also conveniently an abbreviation for "contain floats"*/
+
+.clearfix::after{
+    clear: both;
+} /* only after needs to clear float */
+
+.media:nth-child(odd) {
+    clear: left;
+} 
+
+.media-image{
+    float: left;
+    margin-right: 1.5em; /* addes a space between the image and the body*/
+}
+.media-body{
+    margin-top: 0;
+    overflow: auto; /* establishes a new block formatting context::: for more on BFC read nicole's seminal post about it::: page 105 [133]*/
+}
+.media-body h4{
+    margin-top: 0;
+}
+/* Web developer NICOLE SULLIVAN called this the "MEDIA OBJECT" we would need to establish something called block formatting context for the
+   media body [BFC]*/
+
+/* TIP It’s usually easiest to lay out the large regions of a page first, then work your way to the smaller elements within.*/
+/* NOTE: the page root elements also creates a BFC*/
+/* DCP-BFC-MOP */
+/* GRID-SYSTEM: also a popular way to facilitate code reuse */
+/* General principle of the grid system:: a row container around one or more coloumn containers*/
